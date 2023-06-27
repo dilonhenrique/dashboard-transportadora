@@ -1,5 +1,5 @@
-import { Button, Stack, Typography } from '@mui/material';
-import React, { FormEvent, MouseEvent } from 'react';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from '@mui/material';
+import React, { FormEvent, MouseEvent, useState } from 'react';
 import StyledEdit from './styled';
 import { service } from '@/infra/services';
 import categories from '@/assets/categories';
@@ -13,7 +13,7 @@ interface ModalProps {
 }
 
 export default function EditItem({ type = 'clientes', id, submit, children, viewOnly = false }: ModalProps) {
-
+  const [openModal, setOpenModal] = useState(false);
   const categoria = categories[type];
 
   async function excluir(evento: MouseEvent<HTMLButtonElement, Event>) {
@@ -21,6 +21,7 @@ export default function EditItem({ type = 'clientes', id, submit, children, view
     if (id) {
       await service.excluir(type, id);
     }
+    setOpenModal(false);
   }
 
   return (
@@ -37,7 +38,7 @@ export default function EditItem({ type = 'clientes', id, submit, children, view
           {children}
         </Stack>
         <div className='actions'>
-          {id && <Button color='error' onClick={excluir}>Excluir</Button>}
+          {id && <Button color='error' onClick={() => setOpenModal(true)}>Excluir</Button>}
           {!viewOnly && <Button type='submit' variant='contained'>
             {type === 'deslocamentos'
               ? id ? 'Finalizar' : 'Iniciar'
@@ -45,13 +46,18 @@ export default function EditItem({ type = 'clientes', id, submit, children, view
           </Button>}
         </div>
       </form>
+      <Dialog open={openModal}>
+        <DialogTitle>
+          Excluir {categoria.singular}?
+        </DialogTitle>
+        <DialogContent>
+          Esta ação não poderá ser desfeita.
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenModal(false)}>Cancelar</Button>
+          <Button color='error' variant='contained' onClick={excluir}>Excluir</Button>
+        </DialogActions>
+      </Dialog>
     </StyledEdit>
   )
-}
-
-const fieldsByType = {
-  clientes: ['nome', 'numeroDocumento', 'tipoDocumento', 'logradouro', 'numero', 'bairro', 'cidade', 'uf'],
-  condutores: ['nome', 'numeroHabilitacao', 'catergoriaHabilitacao', 'vencimentoHabilitacao'],
-  veiculos: ['placa', 'marcaModelo', 'anoFabricacao', 'kmAtual'],
-  deslocamentos: ['kmInicial', 'kmFinal', 'inicioDeslocamento', 'fimDeslocamento', 'checkList', 'motivo', 'observacao', 'idCondutor', 'idVeiculo', 'idCliente'],
 }

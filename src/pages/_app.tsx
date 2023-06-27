@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <ThemeProvider theme={theme}>
-      <SnackbarProvider autoHideDuration={6000} anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}>
+      <SnackbarProvider autoHideDuration={6000} anchorOrigin={{ horizontal: 'left', vertical: 'top' }}>
         <Navbar />
         <Component {...pageProps} />
         <AddItem />

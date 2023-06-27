@@ -133,3 +133,11 @@ main {
 ::-webkit-scrollbar-thumb:hover {
   background: #b8c3c3;
 }
+
+/*SNACKBAR*/
+@media (min-width:600px){
+  .notistack-SnackbarContainer {
+    top: unset !important;
+    bottom: 14px;
+  }
+}

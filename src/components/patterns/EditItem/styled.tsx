@@ -2,6 +2,10 @@ import styled from "@emotion/styled";
 
 
 const StyledEdit = styled.div`
+  @media (max-width:600px){
+    padding-bottom: 100px;
+  }
+
   .title {
     padding-bottom:0.5rem;
   }
