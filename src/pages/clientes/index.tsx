@@ -2,7 +2,7 @@ import Head from 'next/head';
 import CardList from '@/components/patterns/CardList';
 import { GetServerSideProps } from 'next';
 import { ICliente } from '@/interfaces/interfaces';
-import { clienteService, service } from '@/infra/services';
+import { service } from '@/infra/services';
 
 export default function Home({ clientes }: IProps) {
 
