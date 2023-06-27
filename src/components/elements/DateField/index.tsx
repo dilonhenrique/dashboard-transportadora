@@ -5,9 +5,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/en-gb';
 import dayjs from 'dayjs';
 
-interface DateProps {
+interface DateProps extends DatePickerProps<any> {
   defaultValue?: string;
   name?: string;
+  label?: string;
 }
 
 export default function DateField({ defaultValue = '', name, ...props }: DateProps) {

@@ -15,23 +15,24 @@ export default function Home({ deslocamentoSelecionado }: IProps) {
 
   async function submit(evento: React.FormEvent<HTMLFormElement>) {
     evento.preventDefault();
+    const target = evento.target as HTMLFormElement;
 
     const data = deslocamentoSelecionado?.id
       ? {
         id: deslocamentoSelecionado?.id,
-        kmFinal: Number(evento.target.kmFinal.value),
-        fimDeslocamento: dayjs(evento.target.fimDeslocamento.value, 'DD-MM-YYYY').toISOString(),
-        observacao: evento.target.observacao.value,
+        kmFinal: Number(target.kmFinal.value),
+        fimDeslocamento: dayjs(target.fimDeslocamento.value, 'DD-MM-YYYY').toISOString(),
+        observacao: target.observacao.value,
       } as IDeslocamento
       : {
-        kmInicial: Number(evento.target.kmInicial.value),
-        inicioDeslocamento: dayjs(evento.target.inicioDeslocamento.value, 'DD-MM-YYYY').toISOString(),
-        checkList: evento.target.checkList.value,
-        motivo: evento.target.motivo.value,
-        observacao: evento.target.observacao.value,
-        idCondutor: Number(evento.target.idCondutor.value),
-        idVeiculo: Number(evento.target.idVeiculo.value),
-        idCliente: Number(evento.target.idCliente.value),
+        kmInicial: Number(target.kmInicial.value),
+        inicioDeslocamento: dayjs(target.inicioDeslocamento.value, 'DD-MM-YYYY').toISOString(),
+        checkList: target.checkList.value,
+        motivo: target.motivo.value,
+        observacao: target.observacao.value,
+        idCondutor: Number(target.idCondutor.value),
+        idVeiculo: Number(target.idVeiculo.value),
+        idCliente: Number(target.idCliente.value),
       } as IDeslocamento;
     const response = await service.deslocamento(data);
   }
@@ -85,7 +86,7 @@ export const getServerSideProps: GetServerSideProps<IProps> = async (ctx) => {
       }
     }
   } catch (err) {
-    if(id === 'adicionar') return { props: {} }
+    if (id === 'adicionar') return { props: {} }
 
     return {
       notFound: true

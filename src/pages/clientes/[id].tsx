@@ -1,26 +1,26 @@
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
-import deslocamentoApi from '@/infra/http';
 import { ICliente } from '@/interfaces/interfaces';
 import EditItem from '@/components/patterns/EditItem';
-import { clienteService, service } from '@/infra/services';
+import { service } from '@/infra/services';
 import { Autocomplete, Stack, TextField } from '@mui/material';
 
 export default function Home({ clienteSelecionado }: IProps) {
   
   async function submit(evento: React.FormEvent<HTMLFormElement>) {
     evento.preventDefault();
+    const target = evento.target as HTMLFormElement;
 
     const data = {
       id: clienteSelecionado?.id,
-      numeroDocumento: evento.target.numeroDocumento.value,
-      tipoDocumento: evento.target.tipoDocumento.value,
-      nome: evento.target.nome.value,
-      logradouro: evento.target.logradouro.value,
-      numero: evento.target.numero.value,
-      bairro: evento.target.bairro.value,
-      cidade: evento.target.cidade.value,
-      uf: evento.target.uf.value,
+      numeroDocumento: target.numeroDocumento.value,
+      tipoDocumento: target.tipoDocumento.value,
+      nome: target.nome.value,
+      logradouro: target.logradouro.value,
+      numero: target.numero.value,
+      bairro: target.bairro.value,
+      cidade: target.cidade.value,
+      uf: target.uf.value,
     }
     
     const response = await service.salvar('Cliente', data);

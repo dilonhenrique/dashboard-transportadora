@@ -12,13 +12,14 @@ export default function Home({ condutorSelecionado }: IProps) {
 
   async function submit(evento: React.FormEvent<HTMLFormElement>) {
     evento.preventDefault();
+    const target = evento.target as HTMLFormElement;
 
     const data = {
       id: condutorSelecionado?.id,
-      nome: evento.target.nome.value,
-      numeroHabilitacao: evento.target.numeroHabilitacao.value,
-      categoriaHabilitacao: evento.target.catergoriaHabilitacao.value,
-      vencimentoHabilitacao: dayjs(evento.target.vencimentoHabilitacao.value,'DD-MM-YYYY').toISOString(),
+      nome: target.nome.value,
+      numeroHabilitacao: target.numeroHabilitacao.value,
+      categoriaHabilitacao: target.catergoriaHabilitacao.value,
+      vencimentoHabilitacao: dayjs(target.vencimentoHabilitacao.value,'DD-MM-YYYY').toISOString(),
     } as ICondutor;
     const response = await service.salvar('Condutor', data);
   }

@@ -1,26 +1,25 @@
 import deslocamentoApi from '@/infra/http';
 import { ICliente, ICondutor, IVeiculo } from '@/interfaces/interfaces';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { SelectProps } from '@mui/material/Select';
 import { GetServerSideProps } from 'next';
 import React, { useEffect, useState } from 'react';
 
-interface SelectProps {
+interface MySelectProps extends SelectProps {
   type: 'clientes' | 'condutores' | 'veiculos';
-  label?: string;
-  name?: string;
-  props: SelectProps;
+  props?: SelectProps;
 }
 
 interface IOptions {
-  id: number;
+  id?: any;
   label: string;
 }
 
-export default function SelectItem({ type = 'clientes', label, name, ...props }: SelectProps) {
-  const [options, setOptions] = useState<IOptions[]>([{id:1,label:'carregando...'}]);
+export default function SelectItem({ type = 'clientes', defaultValue, label, ...props }: MySelectProps) {
+  const [options, setOptions] = useState<IOptions[]>([{ id: defaultValue, label: 'carregando...' }]);
 
   useEffect(() => {
-    async function displayOptions(){
+    async function displayOptions() {
       const data = await getOptions[type]();
       setOptions(data);
     }
@@ -37,14 +36,14 @@ export default function SelectItem({ type = 'clientes', label, name, ...props }:
     },
     condutores: async () => {
       const condutores = await deslocamentoApi.get('Condutor');
-      return condutores.data.map((item:ICondutor) => ({
+      return condutores.data.map((item: ICondutor) => ({
         id: item.id,
         label: item.nome,
       }));
     },
     veiculos: async () => {
       const veiculos = await deslocamentoApi.get('Veiculo');
-      return veiculos.data.map((item:IVeiculo) => ({
+      return veiculos.data.map((item: IVeiculo) => ({
         id: item.id,
         label: `${item.marcaModelo} (${item.anoFabricacao})`,
       }));
@@ -54,7 +53,7 @@ export default function SelectItem({ type = 'clientes', label, name, ...props }:
   return (
     <FormControl required>
       <InputLabel>{label}</InputLabel>
-      <Select name={name} label={label} required {...props}>
+      <Select label={label} required defaultValue={defaultValue || ''} {...props}>
         {options.map(item =>
           <MenuItem key={item.id} value={item.id}>{item.label}</MenuItem>
         )}

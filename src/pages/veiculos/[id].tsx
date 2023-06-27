@@ -10,13 +10,14 @@ export default function Home({ veiculoSelecionado }: IProps) {
 
   async function submit(evento: React.FormEvent<HTMLFormElement>) {
     evento.preventDefault();
+    const target = evento.target as HTMLFormElement;
 
     const data = {
       id: veiculoSelecionado?.id,
-      placa: evento.target.placa.value,
-      marcaModelo: evento.target.marcaModelo.value,
-      anoFabricacao: Number(evento.target.anoFabricacao.value),
-      kmAtual: Number(evento.target.kmAtual.value),
+      placa: target.placa.value,
+      marcaModelo: target.marcaModelo.value,
+      anoFabricacao: Number(target.anoFabricacao.value),
+      kmAtual: Number(target.kmAtual.value),
     }
     const response = await service.salvar('Veiculo', data);
   }
